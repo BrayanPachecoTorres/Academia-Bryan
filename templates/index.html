@@ -1,0 +1,386 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Academy's Bryan</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+/* ===== Base y tipografía ===== */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  color: #fff;
+  padding: 50px 20px;
+  text-align: center;
+}
+header img.logo {
+  max-height: 90px;
+  margin-bottom: 15px;
+}
+header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+header p {
+  font-size: 1.1rem;
+  color: #ddd;
+}
+
+/* NAV */
+nav {
+  background: #0f3460;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+nav a:hover {
+  color: #ffd700;
+}
+
+/* MAIN SECTIONS */
+main {
+  padding: 50px 20px;
+  text-align: center;
+}
+section {
+  margin: 30px auto;
+  background: #fff;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 900px;
+  transition: transform 0.3s ease;
+}
+section:hover {
+  transform: translateY(-5px);
+}
+section h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #16213e;
+}
+section p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* KIT DIGITAL */
+.kit-digital {
+  text-align: center;
+  padding: 60px 20px;
+  background: #eef2f7;
+}
+.kit-digital h2 {
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  color: #16213e;
+}
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+}
+.kit-item {
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.kit-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+.kit-item i {
+  font-size: 42px;
+  color: #0078d7;
+  margin-bottom: 12px;
+}
+.kit-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #16213e;
+}
+.kit-item p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ===== FAQ (estilo igual a la foto 2) ===== */
+.faq {
+  background-color: #0b2a57;
+  color: #ffffff;
+  padding: 48px 20px;
+  text-align: left;
+  max-width: 1100px;
+  margin: 30px auto;
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(2,10,30,0.25);
+}
+.faq h2 {
+  color: #ffffff;
+  font-size: 1.6rem;
+  margin: 0 0 18px 0;
+  text-align: center;
+}
+.faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.faq-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.faq-item .arrow {
+  width: 22px;
+  color: #fff;
+  flex: 0 0 22px;
+  text-align: center;
+  font-weight: 700;
+}
+.faq-item:hover {
+  color: #ffd166;
+  background: rgba(255,255,255,0.02);
+}
+
+/* Respuestas (acordeón) */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.32s ease, padding 0.32s ease;
+  color: #e6eefc;
+  font-size: 0.95rem;
+  padding: 0 18px;
+  margin-bottom: 12px;
+}
+.faq-answer.open {
+  padding: 12px 18px;
+  max-height: 400px;
+}
+
+/* FOOTER */
+footer {
+  background: #0e1a33;
+  color: #cfcfcf;
+  text-align: center;
+  padding: 36px 20px;
+  font-size: 0.95rem;
+}
+footer .logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+footer .logos img {
+  max-height: 44px;
+  margin: 6px 10px;
+  object-fit: contain;
+  filter: none;
+}
+footer .legal-text {
+  max-width: 980px;
+  margin: 0 auto 12px auto;
+  color: #d6d6d6;
+  text-align: justify;
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+footer .copyright {
+  margin-top: 8px;
+  color: #bfbfbf;
+}
+footer .links {
+  margin-top: 10px;
+}
+footer .links a {
+  color: #cfcfcf;
+  text-decoration: none;
+  margin: 0 8px;
+  font-size: 0.92rem;
+}
+footer .links a:hover {
+  color: #fff;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .faq { padding: 28px 14px; }
+  .faq h2 { font-size: 1.3rem; }
+  .faq-item { font-size: 0.98rem; padding: 12px; }
+  footer .legal-text { font-size: 0.9rem; padding: 0 12px; text-align: left; }
+  footer .logos img { max-height: 36px; }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{% static 'img/logo.png' %}" alt="Logo de The Academy's Bryan" class="logo">
+        <h1>The Academy's Bryan</h1>
+        <p>Explora cursos, libros y artículos sobre ajedrez</p>
+    </header>
+
+    <nav>
+        <a href="{% url 'cursos:lista_cursos' %}">Cursos</a>
+        <a href="{% url 'tienda:listado' %}">Tienda</a>
+        <a href="{% url 'blog:lista' %}">Blog</a>
+        <a href="/admin/">Admin</a>
+    </nav>
+
+    <main>
+        <section>
+            <h2>🎓 Cursos</h2>
+            <p>Accede a nuestra academia online y mejora tu nivel desde casa. Cursos por niveles, temporadas y acceso diferido.</p>
+        </section>
+
+        <section>
+            <h2>📖 Tienda</h2>
+            <p>Encuentra libros, piezas metálicas, tableros y recursos para profundizar tu entrenamiento.</p>
+        </section>
+
+        <section>
+            <h2>📝 Blog</h2>
+            <p>Lee artículos, consejos y novedades del mundo del ajedrez. Aprende de los mejores.</p>
+        </section>
+
+        <section class="kit-digital">
+            <h2>💻 Mi Kit Digital</h2>
+            <div class="kit-grid">
+                <div class="kit-item">
+                    <i class="fas fa-globe"></i>
+                    <h3>Presencia Online</h3>
+                    <p>Crea tu espacio en la web con estilo propio.</p>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>Comercio Electrónico</h3>
+                    <p>Tu tienda digital lista para vender.</p>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-users"></i>
+                    <h3>Gestión de Clientes</h3>
+                    <p>Organiza contactos y oportunidades fácilmente.</p>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-lock"></i>
+                    <h3>Ciberseguridad</h3>
+                    <p>Protege tu información y la de tus clientes.</p>
+                </div>
+                <div class="kit-item">
+                    <i class="fas fa-cloud"></i>
+                    <h3>Oficina Virtual</h3>
+                    <p>Colabora desde cualquier lugar.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FAQ con estructura acordeón -->
+    <section class="faq">
+        <h2>Preguntas Frecuentes</h2>
+        <div class="faq-list">
+            <div class="faq-item"><span class="arrow">▶</span> ¿Cómo funcionan los cursos de ajedrez?</div>
+            <div class="faq-answer">Los cursos se organizan por niveles y módulos. Cada módulo incluye lecciones en vídeo, material descargable y ejercicios prácticos. Al inscribirte tendrás acceso a la plataforma y a los recursos correspondientes.</div>
+
+            <div class="faq-item"><span class="arrow">▶</span> ¿El acceso a los cursos de ajedrez es vitalicio?</div>
+            <div class="faq-answer">La mayoría de los cursos ofrecen acceso prolongado; la duración exacta aparece en la ficha del curso. Si hay condiciones especiales se indicarán claramente antes de la compra.</div>
+
+            <div class="faq-item"><span class="arrow">▶</span> ¿Existe garantía de devolución?</div>
+            <div class="faq-answer">Sí, ofrecemos una política de devolución en los primeros 14 días desde la compra para cursos que no hayan sido completados. Consulta las condiciones completas en la sección de Condiciones de Contratación.</div>
+
+            <div class="faq-item"><span class="arrow">▶</span> ¿Cómo os puedo contactar?</div>
+            <div class="faq-answer">Puedes contactarnos mediante el formulario de la página de contacto, por correo electrónico a contacto@theacademysbryan.example (sustituye por tu email real) o a través de nuestras redes sociales.</div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="logos">
+            <img src="{% static 'img/unesco.png' %}" alt="UNESCO">
+            <img src="{% static 'img/cuba.png' %}" alt="Gobierno de Cuba">
+            <img src="{% static 'img/kitdigital.png' %}" alt="Kit Digital">
+        </div>
+
+        <div class="legal-text">
+            <p>
+            Bryan Leonardo Pacheco Torres – Fundador de <strong>The Academy's Bryan</strong>, ha desarrollado esta plataforma educativa como parte de su compromiso con la transformación digital y la enseñanza del ajedrez. Este proyecto se impulsa de manera independiente, con el objetivo de acercar el conocimiento y la práctica del ajedrez a estudiantes y entusiastas de todo el mundo.
+            </p>
+            <p>
+            La iniciativa forma parte de un esfuerzo personal y comunitario por fomentar la digitalización educativa en Cuba y América Latina, contribuyendo al acceso inclusivo al aprendizaje y al desarrollo tecnológico en el ámbito formativo.
+            </p>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2026 Todos los derechos reservados | Diseño Web N7</p>
+        </div>
+
+        <div class="links">
+            <a href="#">Condiciones de Contratación</a> |
+            <a href="#">Aviso Legal</a> |
+            <a href="#">Privacidad</a> |
+            <a href="#">Accesibilidad</a> |
+            <a href="#">Cookies</a>
+        </div>
+    </footer>
+
+    <script>
+/* Acordeón FAQ */
+document.addEventListener('DOMContentLoaded', function () {
+  const items = document.querySelectorAll('.faq-item');
+  items.forEach(item => {
+    item.addEventListener('click', function () {
+      const answer = this.nextElementSibling;
+      const isOpen = answer.classList.contains('open');
+
+      // Cerrar todas (solo una abierta a la vez)
+      document.querySelectorAll('.faq-answer.open').forEach(a => {
+        a.classList.remove('open');
+        a.style.maxHeight = null;
+      });
+
+      if (!isOpen) {
+        answer.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      } else {
+        answer.classList.remove('open');
+        answer.style.maxHeight = null;
+      }
+    });
+  });
+});
+    </script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tienda_extras %}
+
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<section class="carrito py-5">
+    <div class="container">
+        <h2 class="mb-4">🛒 Carrito de Compras</h2>
+        <p class="text-muted">Revisa los productos que has añadido antes de finalizar tu compra.</p>
+
+        {% if productos %}
+        <!-- Tabla de productos en el carrito -->
+        <div class="table-responsive mb-4">
+            <table class="table table-striped align-middle shadow-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-thumbnail" style="max-height:80px;">
+                            {% else %}
+                                <img src="{% static 'img/default.jpg' %}" alt="{{ producto.nombre }}" class="img-thumbnail" style="max-height:80px;">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <strong>{{ producto.nombre }}</strong><br>
+                            <small class="text-muted">{{ producto.categoria }}</small>
+                        </td>
+                        <td>${{ producto.precio }}</td>
+                        <td>{{ carrito|get_item:producto.id }}</td>
+                        <td>
+                            {% with cantidad=carrito|get_item:producto.id %}
+                                ${{ producto.precio|mul:cantidad }}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            <a href="{% url 'tienda:agregar_carrito' producto.id %}" class="btn btn-sm btn-outline-success">➕</a>
+                            <a href="{% url 'tienda:eliminar_carrito' producto.id %}" class="btn btn-sm btn-outline-danger">❌</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Total del carrito -->
+        <div class="carrito-total text-end mb-4">
+            <h4>Total: <span class="text-primary fw-bold">${{ productos|calc_subtotal:carrito }}</span></h4>
+        </div>
+
+        <!-- Acciones del carrito -->
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'tienda:vaciar_carrito' %}" class="btn btn-outline-danger">
+                🗑 Vaciar carrito
+            </a>
+            <a href="{% url 'tienda:listado' %}" class="btn btn-outline-secondary">
+                ← Seguir comprando
+            </a>
+            <a href="{% url 'tienda:finalizar_compra' %}" class="btn btn-success">
+                ✅ Finalizar compra
+            </a>
+        </div>
+
+        {% else %}
+        <!-- Carrito vacío -->
+        <div class="alert alert-info mt-4">
+            Tu carrito está vacío. ¡Empieza a añadir productos!
+        </div>
+        <a href="{% url 'tienda:listado' %}" class="btn btn-primary">Ir al catálogo</a>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

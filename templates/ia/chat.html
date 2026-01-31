@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat IA</title>
+</head>
+<body>
+    <h1>Pregúntale a la IA</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="pregunta" placeholder="Escribe tu pregunta aquí">
+        <button type="submit">Enviar</button>
+    </form>
+
+    {% if respuesta %}
+        <h2>Respuesta:</h2>
+        <p>{{ respuesta }}</p>
+    {% endif %}
+</body>
+</html>

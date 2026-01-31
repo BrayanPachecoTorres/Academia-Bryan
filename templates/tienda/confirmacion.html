@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirmación de Pedido{% endblock %}
+
+{% block content %}
+<section class="order-confirmation py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        <!-- Encabezado -->
+        <div class="text-center mb-5">
+          <h1 class="text-success">✅ Pedido recibido</h1>
+          <p class="lead">Gracias por tu compra, {{ pedido.nombre }} {{ pedido.apellidos }}.</p>
+          <p class="text-muted">Hemos recibido tu pedido y lo estamos procesando.</p>
+        </div>
+
+        <!-- Resumen del pedido -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            Detalles del pedido
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item d-flex justify-content-between">
+                <span class="fw-bold">Número de pedido:</span>
+                <span>#{{ pedido.id }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span class="fw-bold">Fecha:</span>
+                <span>{{ pedido.fecha|date:"d M Y H:i" }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span class="fw-bold">Correo electrónico:</span>
+                <span>{{ pedido.email }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span class="fw-bold">Total:</span>
+                <span class="text-primary fw-bold">${{ pedido.total }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Productos del pedido -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-secondary text-white">
+            Productos adquiridos
+          </div>
+          <div class="card-body">
+            {% if pedido.lineas.all %}
+              <ul class="list-group list-group-flush">
+                {% for linea in pedido.lineas.all %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>{{ linea.producto.nombre }}</strong><br>
+                      <small>Cantidad: {{ linea.cantidad }}</small>
+                    </div>
+                    <span>${{ linea.precio_unitario }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No hay productos en este pedido.</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Dirección de facturación -->
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-dark text-white">
+            Dirección de facturación
+          </div>
+          <div class="card-body">
+            <p>
+              {{ pedido.nombre }} {{ pedido.apellidos }}<br>
+              {{ pedido.telefono }}<br>
+              {{ pedido.email }}<br>
+              {% if pedido.direccion %}
+                {{ pedido.direccion }}
+              {% else %}
+                <span class="text-muted">No se proporcionó dirección</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="text-center mt-4">
+          <a href="{% url 'tienda:listado' %}" class="btn btn-outline-primary me-2">
+            🛒 Volver a la tienda
+          </a>
+          <a href="{% url 'tienda:finalizar_compra' %}" class="btn btn-warning">
+            🔁 Volver a pedirlo
+          </a>
+        </div>
+
+        <!-- Aviso de privacidad -->
+        <p class="text-muted small mt-3 text-center">
+          Tus datos personales se utilizarán para procesar tu pedido y mejorar tu experiencia en esta web, 
+          según nuestra <a href="#" class="text-decoration-underline">política de privacidad</a>.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

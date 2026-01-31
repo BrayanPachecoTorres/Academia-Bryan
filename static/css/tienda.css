@@ -1,0 +1,212 @@
+/* General layout */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 1rem;
+}
+
+.container {
+    max-width: 960px;
+    margin: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Tables */
+.table th, .table td {
+    vertical-align: middle;
+    font-size: 0.95rem;
+}
+
+.table img {
+    max-height: 80px;
+    border-radius: 6px;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.btn-sm {
+    padding: 5px 12px;
+    font-size: 0.875rem;
+}
+
+.btn-outline-success {
+    border-color: #198754;
+    color: #198754;
+}
+
+.btn-outline-success:hover {
+    background-color: #198754;
+    color: #fff;
+}
+
+.btn-outline-danger {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border: none;
+    color: #212529;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+}
+
+/* Cards */
+.card {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+}
+
+.card-body {
+    padding: 1rem 1.5rem;
+}
+
+/* Forms */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+}
+
+.form-control {
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+/* Checkout */
+.checkout h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.checkout .lead {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.checkout .list-group-item {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+}
+
+.checkout .fw-bold {
+    font-weight: 600;
+}
+
+.checkout .text-primary {
+    color: #007bff;
+}
+
+/* Confirmación */
+.order-confirmation h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.order-confirmation .lead {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.order-confirmation .text-success {
+    color: #28a745;
+}
+
+.order-confirmation .btn-outline-primary,
+.order-confirmation .btn-warning {
+    padding: 0.6rem 1.2rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+/* Footer */
+footer {
+    background-color: #212529;
+    color: #ccc;
+    padding: 30px 0;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+footer a {
+    color: #ccc;
+    text-decoration: none;
+    margin: 0 8px;
+}
+
+footer a:hover {
+    color: #fff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}

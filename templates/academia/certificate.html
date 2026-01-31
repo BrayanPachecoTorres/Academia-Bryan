@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificado - {{ course.title }}</title>
+  <link rel="stylesheet" href="{% static 'academia/css/academia.css' %}">
+  <style>
+    .certificate {
+      width: 80%;
+      margin: 40px auto;
+      padding: 40px;
+      border: 10px solid #0077cc;
+      border-radius: 12px;
+      background: #fdfdfd;
+      text-align: center;
+      font-family: 'Georgia', serif;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    .certificate h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #0077cc;
+    }
+    .certificate h2 {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+    .certificate p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .certificate .code {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #555;
+    }
+    .certificate .footer {
+      margin-top: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+    .signature {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .signature div {
+      width: 45%;
+      text-align: center;
+      border-top: 1px solid #333;
+      padding-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="certificate">
+    <h1>Certificado de Finalización</h1>
+    <h2>Academia de Brayan</h2>
+
+    <p>Se otorga el presente certificado a:</p>
+    <p><strong>{{ certificate.enrollment.user.get_full_name }}</strong></p>
+
+    <p>Por haber completado satisfactoriamente el curso:</p>
+    <p><strong>{{ course.title }}</strong></p>
+
+    <p>Emitido el día {{ certificate.issued_at|date:"d/m/Y" }}</p>
+
+    <div class="code">
+      Código de verificación: {{ certificate.code }}
+    </div>
+
+    <div class="signature">
+      <div>
+        Director Académico<br>
+        Academia de Brayan
+      </div>
+      <div>
+        Instructor<br>
+        {{ course.instructor }}
+      </div>
+    </div>
+
+    <div class="footer">
+      © 2026 The Academy´s Bryan | Todos los derechos reservados
+    </div>
+  </div>
+</body>
+</html>

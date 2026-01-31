@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Academia de Ajedrez - Brayan{% endblock %}
+
+{% block content %}
+<section class="hero text-center py-5 bg-dark text-light">
+  <img src="{% static 'academia/img/logo_knight.png' %}" alt="Logo" class="logo mb-3">
+  <h1 class="display-4">Academia de Ajedrez</h1>
+  <p class="lead">Aprende ajedrez a tu ritmo, desde cualquier lugar y en cualquier momento.</p>
+  <a href="{% url 'academia_listado' %}" class="btn btn-primary mt-3">Ver todos los cursos</a>
+</section>
+
+<section class="container my-5">
+  <h2 class="text-center mb-4">🎓 Cursos destacados</h2>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-danger mb-2">¡Oferta! -29%</span>
+          <h5 class="card-title">Nivel 1 - SUB1600</h5>
+          <p class="card-text">Temporada 2 | Acceso diferido</p>
+          <p class="text-muted">⭐ GM Brayan Leonardo</p>
+          <p class="fw-bold">200,00 € <del class="text-muted">280,00 €</del></p>
+          <a href="#" class="btn btn-outline-primary">Inscríbete ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-danger mb-2">¡Oferta! -30%</span>
+          <h5 class="card-title">Nivel 2 - 1600-2400</h5>
+          <p class="card-text">Temporada 2 | Acceso diferido</p>
+          <p class="text-muted">⭐ GM Brayan Leonardo</p>
+          <p class="fw-bold">280,00 € <del class="text-muted">400,00 €</del></p>
+          <a href="#" class="btn btn-outline-primary">Inscríbete ahora</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body">
+          <span class="badge bg-success mb-2">Prueba gratuita</span>
+          <h5 class="card-title">Curso de iniciación</h5>
+          <p class="card-text">Accede gratis y empieza a aprender ajedrez</p>
+          <p class="text-muted">⭐ GM Brayan Leonardo</p>
+          <p class="fw-bold">GRATIS</p>
+          <a href="#" class="btn btn-success">Accede gratis</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container my-5">
+  <h2 class="text-center mb-4">🗣️ Testimonios</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <blockquote class="blockquote">
+        <p>“Brayan explica de maravilla y transmite su pasión por el ajedrez.”</p>
+        <footer class="blockquote-footer">Rey Enigma, Youtuber</footer>
+      </blockquote>
+    </div>
+    <div class="col-md-4">
+      <blockquote class="blockquote">
+        <p>“A tricky guy.”</p>
+        <footer class="blockquote-footer">Magnus Carlsen, Campeón del Mundo</footer>
+      </blockquote>
+    </div>
+    <div class="col-md-4">
+      <blockquote class="blockquote">
+        <p>“Contenido de calidad. Gran trabajo con esta plataforma.”</p>
+        <footer class="blockquote-footer">Pepe Cuenca, Gran Maestro</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<section class="faq container my-5">
+  <h2 class="text-center mb-4">❓ Preguntas Frecuentes</h2>
+  <div class="accordion" id="faqAccordion">
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">¿Cómo funcionan los cursos?</button></h2>
+      <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">Se organizan por niveles y módulos, con lecciones en vídeo, material descargable y ejercicios prácticos.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">¿El acceso es vitalicio?</button></h2>
+      <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">La mayoría ofrecen acceso prolongado; la duración aparece en la ficha del curso.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">¿Hay garantía de devolución?</button></h2>
+      <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">Sí, ofrecemos política de devolución en los primeros 14 días desde la compra.</div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">¿Cómo contactar?</button></h2>
+      <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+        <div class="accordion-body">Puedes contactarnos por formulario, correo electrónico o redes sociales.</div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

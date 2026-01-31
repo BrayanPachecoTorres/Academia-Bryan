@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cursos - The Academy's Bryan{% endblock %}
+
+{% block content %}
+<section class="cursos-home">
+    <div class="container">
+        <h2>Bienvenido a la sección de Cursos</h2>
+        <p>Explora nuestros cursos de ajedrez y mejora tu nivel con los mejores instructores.</p>
+
+        {% if cursos_destacados %}
+        <div class="grid-cursos">
+            {% for curso in cursos_destacados %}
+            <article class="curso-card">
+                <figure>
+                    {% if curso.imagen %}
+                        <img src="{{ curso.imagen.url }}" alt="{{ curso.titulo }}">
+                    {% else %}
+                        <img src="{% static 'img/default.jpg' %}" alt="{{ curso.titulo }}">
+                    {% endif %}
+                </figure>
+                <div class="curso-info">
+                    <h3>{{ curso.titulo }}</h3>
+                    <p>{{ curso.descripcion|truncatewords:25 }}</p>
+                    <p><strong>Nivel:</strong> {{ curso.nivel }}</p>
+                    <p><strong>Instructor:</strong> {{ curso.instructor }}</p>
+                    <p><strong>Duración:</strong> {{ curso.duracion }} horas</p>
+                    <p><strong>Precio:</strong> ${{ curso.precio }}</p>
+                    <a href="{{ curso.get_absolute_url }}" class="btn">Ver detalles</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="mensaje-vacio">No hay cursos destacados en este momento.</p>
+        {% endif %}
+
+        <div class="ver-todos">
+            <a href="{% url 'cursos:lista_cursos' %}" class="btn btn-secundario">Ver todos los cursos</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

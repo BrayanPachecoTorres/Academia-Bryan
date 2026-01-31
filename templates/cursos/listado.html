@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Cursos</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f9;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        main {
+            padding: 20px;
+        }
+        .cursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .curso-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+        }
+        .curso-card img {
+            max-width: 100%;
+            border-radius: 6px;
+        }
+        .curso-card h3 {
+            margin: 10px 0;
+        }
+        .curso-card p {
+            font-size: 14px;
+            color: #555;
+        }
+        .curso-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .curso-card a:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Listado de Cursos</h1>
+        <p>Explora todos nuestros cursos de ajedrez</p>
+    </header>
+
+    <main>
+        <div class="cursos-grid">
+            <!-- Curso 1 -->
+            <div class="curso-card">
+                <img src="{% static 'img/curso1.jpg' %}" alt="Curso 1">
+                <h3>Curso Básico de Ajedrez</h3>
+                <p>Aprende las reglas fundamentales y estrategias iniciales para comenzar a jugar.</p>
+                <a href="{% url 'cursos:detalle_curso' slug='curso-basico-de-ajedrez' %}">Ver detalle</a>
+            </div>
+
+            <!-- Curso 2 -->
+            <div class="curso-card">
+                <img src="{% static 'img/curso2.jpg' %}" alt="Curso 2">
+                <h3>Curso Intermedio</h3>
+                <p>Mejora tu nivel con tácticas avanzadas y práctica de partidas reales.</p>
+                <a href="{% url 'cursos:detalle_curso' slug='curso-intermedio' %}">Ver detalle</a>
+            </div>
+
+            <!-- Curso 3 -->
+            <div class="curso-card">
+                <img src="{% static 'img/curso3.jpg' %}" alt="Curso 3">
+                <h3>Curso Avanzado</h3>
+                <p>Domina aperturas, finales y estrategias de alto nivel para competir.</p>
+                <a href="{% url 'cursos:detalle_curso' slug='curso-avanzado' %}">Ver detalle</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Cursos - Academia de Brayan</title>
+  <link rel="stylesheet" href="{% static 'academia/css/academia.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <img src="{% static 'academia/img/logo.png' %}" alt="Logo Academia de Brayan" class="logo">
+    <h1>Academia de Brayan</h1>
+    <p>Aprende ajedrez desde casa con nuestros cursos</p>
+  </header>
+
+  <!-- Navegación -->
+  <nav>
+    <a href="{% url 'academia_home' %}">Inicio</a>
+    <a href="{% url 'academia_listado' %}">Cursos</a>
+    <a href="#">Blog</a>
+    <a href="#">Contacto</a>
+  </nav>
+
+  <!-- Sección principal: listado de cursos -->
+  <section>
+    <h2>Listado de Cursos</h2>
+    <p class="lead">Explora nuestros cursos disponibles y mejora tu nivel de ajedrez.</p>
+
+    <div class="grid grid-3">
+      {% for curso in cursos %}
+        <article class="curso-card">
+          {% if curso.cover_image %}
+            <img src="{{ curso.cover_image.url }}" alt="{{ curso.title }}" loading="lazy">
+          {% else %}
+            <img src="{% static 'academia/img/placeholder.png' %}" alt="Curso sin imagen" loading="lazy">
+          {% endif %}
+          <h3>{{ curso.title }}</h3>
+          <p>{{ curso.short_description }}</p>
+          <p class="small">Duración: {{ curso.duration_minutes }} min</p>
+          <p class="precio">{{ curso.price }} USD</p>
+          <a href="{% url 'academia_curso_detalle' curso.slug %}" class="btn">Ver curso</a>
+        </article>
+      {% empty %}
+        <p>No hay cursos disponibles en este momento.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if page_obj.has_other_pages %}
+      <div class="pagination center" style="margin-top:20px;">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}" class="btn secondary">Anterior</a>
+        {% endif %}
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}" class="btn secondary">Siguiente</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- Sección FAQ -->
+  <section class="faq">
+    <h2>Preguntas Frecuentes</h2>
+    <div class="faq-list">
+      <div class="faq-item"><span class="arrow">▶</span> ¿Cómo funcionan los cursos de ajedrez?</div>
+      <div class="faq-answer">Los cursos se organizan por niveles y módulos, con lecciones en vídeo, material descargable y ejercicios prácticos.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿El acceso a los cursos de ajedrez es vitalicio?</div>
+      <div class="faq-answer">La mayoría de los cursos ofrecen acceso prolongado; la duración exacta aparece en la ficha del curso.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿Existe garantía de devolución?</div>
+      <div class="faq-answer">Sí, ofrecemos una política de devolución en los primeros 14 días desde la compra.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿Cómo os puedo contactar?</div>
+      <div class="faq-answer">Puedes contactarnos mediante el formulario de contacto, correo electrónico o redes sociales.</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="logos">
+      <img src="{% static 'academia/img/unesco.png' %}" alt="UNESCO">
+      <img src="{% static 'academia/img/cuba.png' %}" alt="Gobierno de Cuba">
+      <img src="{% static 'academia/img/kitdigital.png' %}" alt="Kit Digital">
+    </div>
+    <p>&copy; 2026 Todos los derechos reservados | Diseño Web N7</p>
+    <p>
+      <a href="#">Condiciones de Contratación</a> |
+      <a href="#">Aviso Legal</a> |
+      <a href="#">Privacidad</a> |
+      <a href="#">Accesibilidad</a> |
+      <a href="#">Cookies</a>
+    </p>
+  </footer>
+
+  <!-- Script para acordeón FAQ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const items = document.querySelectorAll('.faq-item');
+      items.forEach(item => {
+        item.addEventListener('click', function () {
+          const answer = this.nextElementSibling;
+          const isOpen = answer.classList.contains('open');
+
+          document.querySelectorAll('.faq-answer.open').forEach(a => {
+            a.classList.remove('open');
+            a.style.maxHeight = null;
+          });
+
+          if (!isOpen) {
+            answer.classList.add('open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          } else {
+            answer.classList.remove('open');
+            answer.style.maxHeight = null;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

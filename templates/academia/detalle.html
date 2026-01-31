@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ curso.title }} - Academia de Brayan</title>
+  <link rel="stylesheet" href="{% static 'academia/css/academia.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <img src="{% static 'academia/img/logo.png' %}" alt="Logo Academia de Brayan" class="logo">
+    <h1>Academia de Brayan</h1>
+    <p>Curso: {{ curso.title }}</p>
+  </header>
+
+  <!-- Navegación -->
+  <nav>
+    <a href="{% url 'academia_home' %}">Inicio</a>
+    <a href="{% url 'academia_listado' %}">Cursos</a>
+    <a href="#">Blog</a>
+    <a href="#">Contacto</a>
+  </nav>
+
+  <!-- Ficha del curso -->
+  <section class="container">
+    <div class="grid" style="grid-template-columns: 1fr 1fr;">
+      <div>
+        {% if curso.cover_image %}
+          <img src="{{ curso.cover_image.url }}" alt="{{ curso.title }}" style="border-radius:8px;">
+        {% else %}
+          <img src="{% static 'academia/img/placeholder.png' %}" alt="Curso sin imagen">
+        {% endif %}
+      </div>
+      <div>
+        <h2>{{ curso.title }}</h2>
+        <p><strong>Nivel:</strong> {{ curso.get_level_display }}</p>
+        <p><strong>Temporada:</strong> {{ curso.temporada }}</p>
+        <p><strong>Formato:</strong> Diferido</p>
+        <p><strong>Instructor:</strong> {{ curso.instructor }}</p>
+        <p class="precio">
+          {% if curso.descuento %}
+            <del>{{ curso.precio_original }} €</del> <strong>{{ curso.price }} €</strong>
+          {% else %}
+            <strong>{{ curso.price }} €</strong>
+          {% endif %}
+        </p>
+        {% if user.is_authenticated %}
+          {% if enrolled %}
+            <a href="{% url 'academia_leccion' curso.slug curso.modules.first.lessons.first.slug %}" class="btn">Continuar curso</a>
+          {% else %}
+            <a href="{% url 'academia_enroll' curso.slug %}" class="btn">Inscribirme ahora</a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'login' %}" class="btn">Inicia sesión para inscribirte</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Descripción -->
+    <h3>¿Qué aprenderás?</h3>
+    <p>{{ curso.description|linebreaks }}</p>
+
+    <!-- Contenido del curso -->
+    <h3>Contenido del curso</h3>
+    {% for module in modules %}
+      <h4>{{ module.title }}</h4>
+      <ul>
+        {% for lesson in module.lessons.all %}
+          <li>
+            {{ lesson.title }}
+            {% if enrolled %}
+              - <a href="{% url 'academia_leccion' curso.slug lesson.slug %}" class="btn secondary">Ver lección</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+
+    <!-- Certificado -->
+    {% if certificate %}
+      <hr>
+      <h3>🎓 Certificado disponible</h3>
+      <p>Has completado este curso. Puedes ver tu certificado aquí:</p>
+      <a href="{% url 'academia_certificado' curso.slug %}" class="btn">Ver certificado</a>
+      <a href="{% url 'academia_certificado_pdf' course.slug %}" class="btn secondary">Descargar PDF</a>
+    {% endif %}
+
+    <!-- Reseñas -->
+    <hr>
+    <h3>Reseñas de alumnos</h3>
+    {% for review in reviews %}
+      <div style="margin-bottom:12px;">
+        <strong>{{ review.user.get_full_name }}</strong> - {{ review.rating }}/5<br>
+        <em>{{ review.comment }}</em>
+      </div>
+    {% empty %}
+      <p>Aún no hay reseñas para este curso.</p>
+    {% endfor %}
+
+    {% if user.is_authenticated and enrolled %}
+      <form method="post" action="{% url 'academia_review' curso.slug %}">
+        {% csrf_token %}
+        <h4>Deja tu reseña</h4>
+        <label for="rating">Calificación (1-5):</label>
+        <input type="number" name="rating" min="1" max="5" required>
+        <br>
+        <label for="comment">Comentario:</label><br>
+        <textarea name="comment" rows="3" cols="40"></textarea><br>
+        <button type="submit" class="btn">Enviar reseña</button>
+      </form>
+    {% endif %}
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <h2>Preguntas Frecuentes</h2>
+    <div class="faq-list">
+      <div class="faq-item"><span class="arrow">▶</span> ¿Cómo funcionan los cursos de ajedrez?</div>
+      <div class="faq-answer">Los cursos se organizan por niveles y módulos, con lecciones en vídeo, material descargable y ejercicios prácticos.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿El acceso a los cursos de ajedrez es vitalicio?</div>
+      <div class="faq-answer">La mayoría de los cursos ofrecen acceso prolongado; la duración exacta aparece en la ficha del curso.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿Existe garantía de devolución?</div>
+      <div class="faq-answer">Sí, ofrecemos una política de devolución en los primeros 14 días desde la compra.</div>
+
+      <div class="faq-item"><span class="arrow">▶</span> ¿Cómo os puedo contactar?</div>
+      <div class="faq-answer">Puedes contactarnos mediante el formulario de contacto, correo electrónico o redes sociales.</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="logos">
+      <img src="{% static 'academia/img/unesco.png' %}" alt="UNESCO">
+      <img src="{% static 'academia/img/cuba.png' %}" alt="Gobierno de Cuba">
+      <img src="{% static 'academia/img/kitdigital.png' %}" alt="Kit Digital">
+    </div>
+    <p>&copy; 2026 Todos los derechos reservados | Diseño Web N7</p>
+    <p>
+      <a href="#">Condiciones de Contratación</a> |
+      <a href="#">Aviso Legal</a> |
+      <a href="#">Privacidad</a> |
+      <a href="#">Accesibilidad</a> |
+      <a href="#">Cookies</a>
+    </p>
+  </footer>
+
+  <!-- Script FAQ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const items = document.querySelectorAll('.faq-item');
+      items.forEach(item => {
+        item.addEventListener('click', function () {
+          const answer = this.nextElementSibling;
+          const isOpen = answer.classList.contains('open');
+
+          document.querySelectorAll('.faq-answer.open').forEach(a => {
+            a.classList.remove('open');
+            a.style.maxHeight = null;
+          });
+
+          if (!isOpen) {
+            answer.classList.add('open');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+          } else {
+            answer.classList.remove('open');
+            answer.style.maxHeight = null;
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

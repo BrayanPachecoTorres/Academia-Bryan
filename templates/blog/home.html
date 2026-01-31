@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-dark text-white text-center py-5">
+  <div class="container">
+    <h1 class="display-4">Bienvenido a Ajedrez con Brayan</h1>
+    <p class="lead">Cursos, artículos y recursos para mejorar tu juego</p>
+    <a href="{% url 'cursos:lista_cursos' %}" class="btn btn-primary btn-lg mt-3">Explorar Cursos</a>
+  </div>
+</section>
+
+<!-- Cursos Destacados -->
+<section class="cursos py-5">
+  <div class="container">
+    <h2 class="mb-4">Cursos Destacados</h2>
+    <div class="row">
+      {% for curso in cursos_destacados %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if curso.imagen %}
+          <img src="{{ curso.imagen.url }}" class="card-img-top" alt="{{ curso.titulo }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ curso.titulo }}</h5>
+            <p class="card-text">{{ curso.descripcion|truncatewords:20 }}</p>
+            <a href="{% url 'cursos:detalle_curso' curso.id %}" class="btn btn-outline-primary">Ver más</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No hay cursos disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Últimas Entradas del Blog -->
+<section class="blog py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-4">Últimas del Blog</h2>
+    <div class="row">
+      {% for post in posts_recientes %}
+      <div class="col-md-4 mb-4">
+        <div class="card h-100">
+          {% if post.imagen_destacada %}
+          <img src="{{ post.imagen_destacada.url }}" class="card-img-top" alt="{{ post.titulo }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ post.titulo }}</h5>
+            <p class="card-text">{{ post.resumen|truncatewords:25 }}</p>
+            <a href="{% url 'blog:detalle' post.slug %}" class="btn btn-outline-secondary">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No hay entradas en el blog.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Tienda -->
+<section class="tienda py-5">
+  <div class="container">
+    <h2 class="mb-4">Productos Destacados</h2>
+    <div class="row">
+      {% for producto in productos_destacados %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          {% if producto.imagen %}
+          <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ producto.nombre }}</h5>
+            <p class="card-text">${{ producto.precio }}</p>
+            <a href="{% url 'tienda:detalle_producto' producto.id %}" class="btn btn-outline-success">Ver producto</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No hay productos disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Estadísticas -->
+<section class="stats py-5 text-center bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h3>{{ total_cursos }}</h3>
+        <p>Cursos disponibles</p>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ total_posts }}</h3>
+        <p>Artículos publicados</p>
+      </div>
+      <div class="col-md-4">
+        <h3>{{ total_usuarios }}</h3>
+        <p>Miembros registrados</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonios -->
+<section class="testimonios py-5">
+  <div class="container">
+    <h2 class="mb-4 text-center">Lo que dicen nuestros alumnos</h2>
+    <div class="row">
+      {% for testimonio in testimonios %}
+      <div class="col-md-4 mb-4">
+        <blockquote class="blockquote bg-white p-4 shadow-sm rounded">
+          <p>"{{ testimonio.texto }}"</p>
+          <footer class="blockquote-footer">{{ testimonio.autor }}</footer>
+        </blockquote>
+      </div>
+      {% empty %}
+      <p class="text-muted text-center">Aún no hay testimonios disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter py-5 bg-dark text-white text-center">
+  <div class="container">
+    <h2>Suscríbete a nuestro boletín</h2>
+    <p>Recibe novedades, artículos y promociones directamente en tu correo.</p>
+    <form method="post" action="{% url 'usuarios:newsletter' %}" class="d-inline-block mt-3">
+      {% csrf_token %}
+      <div class="input-group">
+        <input type="email" name="email" class="form-control" placeholder="Tu correo electrónico" required>
+        <button class="btn btn-primary" type="submit">Suscribirme</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Comunidad -->
+<section class="comunidad py-5 bg-dark text-white text-center">
+  <div class="container">
+    <h2>Únete a nuestra comunidad</h2>
+    <p>Regístrate y participa en foros, partidas y más.</p>
+    <a href="{% url 'usuarios:registro' %}" class="btn btn-light btn-lg">Crear cuenta</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+  <p>©; {{ 2026 }} The Academy´s Bryan · Todos los derechos reservados</p>
+  <p>
+    <a href="{% url 'usuarios:contacto' %}" class="text-white">Contacto</a> |
+    <a href="{% url 'usuarios:politicas' %}" class="text-white">Políticas</a>
+  </p>
+</footer>
+{% endblock %}

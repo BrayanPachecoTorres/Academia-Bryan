@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ lesson.title }} - {{ course.title }}</title>
+  <link rel="stylesheet" href="{% static 'academia/css/academia.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>{{ course.title }}</h1>
+    <p>Lección: {{ lesson.title }}</p>
+  </header>
+
+  <!-- Navegación -->
+  <nav>
+    <a href="{% url 'academia_home' %}">Inicio</a>
+    <a href="{% url 'academia_listado' %}">Cursos</a>
+    <a href="{% url 'academia_curso_detalle' course.slug %}">Volver al curso</a>
+  </nav>
+
+  <!-- Contenido de la lección -->
+  <section class="container">
+    <!-- Video -->
+    {% if lesson.video_url %}
+      <div class="video-wrapper" style="margin-bottom:20px;">
+        <iframe src="{{ lesson.video_url }}" frameborder="0" allowfullscreen></iframe>
+      </div>
+    {% endif %}
+
+    <!-- Texto / Material -->
+    <div class="lesson-content">
+      {{ lesson.content|safe }}
+    </div>
+
+    <!-- Material descargable -->
+    {% if lesson.material_file %}
+      <p style="margin-top:15px;">
+        📥 <a href="{{ lesson.material_file.url }}" class="btn secondary">Descargar material</a>
+      </p>
+    {% endif %}
+
+    <!-- Progreso -->
+    <div style="margin-top:20px;">
+      <button id="toggle-complete" class="btn secondary" data-progress-id="{{ progress.id }}">
+        {% if progress.completed %}Marcar como no completada{% else %}Marcar como completada{% endif %}
+      </button>
+    </div>
+
+    <!-- Barra de progreso del curso -->
+    <div style="margin-top:30px;">
+      <h3>Progreso del curso</h3>
+      {% with total=course.modules.all|length completed=progress.enrollment.progress.filter(completed=True).count %}
+        {% if total > 0 %}
+          <div style="background:#eee; border-radius:6px; overflow:hidden; height:20px; width:100%;">
+            <div style="background:#0077cc; width:{{ completed|divisibleby:total|floatformat:0 }}%; height:100%;"></div>
+          </div>
+          <p>{{ completed }} de {{ total }} lecciones completadas</p>
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Navegación entre lecciones -->
+    <div style="margin-top:30px; display:flex; justify-content:space-between;">
+      {% if lesson.get_previous_by_order %}
+        <a href="{% url 'academia_leccion' course.slug lesson.get_previous_by_order.slug %}" class="btn secondary">← Lección anterior</a>
+      {% endif %}
+      {% if lesson.get_next_by_order %}
+        <a href="{% url 'academia_leccion' course.slug lesson.get_next_by_order.slug %}" class="btn">Siguiente lección →</a>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 The Academy´s Bryan | Todos los derechos reservados</p>
+    <p>
+      <a href="#">Condiciones de Contratación</a> |
+      <a href="#">Aviso Legal</a> |
+      <a href="#">Privacidad</a> |
+      <a href="#">Accesibilidad</a> |
+      <a href="#">Cookies</a>
+    </p>
+  </footer>
+
+  <!-- Script para progreso -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      const btn = document.getElementById('toggle-complete');
+      if (!btn) return;
+      btn.addEventListener('click', async function(){
+        const pk = this.dataset.progressId;
+        const resp = await fetch("{% url 'academia_toggle_progress' 0 %}".replace('/0/', '/' + pk + '/'), {
+          method: 'POST',
+          headers: {'X-CSRFToken': '{{ csrf_token }}', 'X-Requested-With': 'XMLHttpRequest'}
+        });
+        const data = await resp.json();
+        this.textContent = data.completed ? 'Marcar como no completada' : 'Marcar como completada';
+      });
+    });
+  </script>
+</body>
+</html>

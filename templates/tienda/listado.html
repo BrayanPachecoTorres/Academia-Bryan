@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Catálogo de Productos{% endblock %}
+
+{% block content %}
+<section class="listado-productos">
+    <div class="container">
+        <h2>Catálogo completo de productos</h2>
+        <p>Aquí puedes ver todos los artículos disponibles en la tienda.</p>
+
+        <!-- 🔎 Buscador -->
+        <form method="get" action="{% url 'tienda:buscar' %}" class="form-busqueda">
+            <input type="text" name="q" placeholder="Buscar productos..." value="{{ request.GET.q }}">
+            <button type="submit">Buscar</button>
+        </form>
+
+        <!-- 📂 Filtro por categorías -->
+        <form method="get" action="{% url 'tienda:listado' %}" class="form-categorias">
+            <label for="categoria">Filtrar por categoría:</label>
+            <select name="categoria" id="categoria" onchange="this.form.submit()">
+                <option value="">Todas</option>
+                {% for categoria in categorias %}
+                    <option value="{{ categoria.id }}" {% if categoria_seleccionada == categoria.id|stringformat:"s" %}selected{% endif %}>
+                        {{ categoria.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        {% if productos %}
+        <div class="grid-productos">
+            {% for producto in productos %}
+            <article class="producto">
+                <figure>
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                    {% else %}
+                        <img src="{% static 'img/default.jpg' %}" alt="{{ producto.nombre }}">
+                    {% endif %}
+                </figure>
+
+                <div class="info-producto">
+                    <h3>{{ producto.nombre }}</h3>
+                    <p>{{ producto.descripcion|truncatewords:20 }}</p>
+                    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+                    <p><strong>Stock:</strong> {{ producto.stock }}</p>
+                    <a href="{% url 'tienda:detalle' producto.id %}" class="btn">Ver detalles</a>
+                    <!-- 🛒 Botón de carrito -->
+                    <a href="{% url 'tienda:agregar_carrito' producto.id %}" class="btn btn-carrito">Añadir al carrito</a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+
+        <!-- 📑 Paginación -->
+        {% if productos.has_other_pages %}
+        <div class="paginacion">
+            {% if productos.has_previous %}
+                <a href="?page={{ productos.previous_page_number }}">← Anterior</a>
+            {% endif %}
+            <span>Página {{ productos.number }} de {{ productos.paginator.num_pages }}</span>
+            {% if productos.has_next %}
+                <a href="?page={{ productos.next_page_number }}">Siguiente →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <p class="mensaje-vacio">No hay productos disponibles en este momento.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

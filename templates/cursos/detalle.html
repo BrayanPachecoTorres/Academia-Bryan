@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Detalle del curso{% endblock %}
+
+{% block content %}
+<section class="detalle-curso">
+    <div class="curso-card">
+        <header class="curso-header">
+            <h1 class="curso-titulo">{{ curso.titulo }}</h1>
+            <p class="curso-nivel"><strong>Nivel:</strong> {{ curso.nivel }}</p>
+        </header>
+
+        <div class="curso-body">
+            <p class="curso-descripcion">{{ curso.descripcion }}</p>
+            <p class="curso-precio"><strong>Precio:</strong> ${{ curso.precio }}</p>
+
+            <div class="curso-instructor">
+                <h3>Instructor</h3>
+                <p>{{ curso.instructor }}</p>
+            </div>
+
+            <div class="curso-datos">
+                <p><strong>Duración:</strong> {{ curso.duracion }} horas</p>
+                <p><strong>Fecha de inicio:</strong> {{ curso.fecha_inicio }}</p>
+            </div>
+
+            <div class="curso-beneficios">
+                <h3>Lo que aprenderás</h3>
+                <ul>
+                    <li>Conceptos básicos de ajedrez</li>
+                    <li>Estrategias avanzadas</li>
+                    <li>Prácticas con partidas reales</li>
+                </ul>
+            </div>
+
+            <div class="curso-reseñas">
+                <h3>Opiniones de estudiantes</h3>
+                <p>⭐⭐⭐⭐☆ (4.5/5)</p>
+                <p>"Excelente curso, aprendí muchísimo" – Juan P.</p>
+            </div>
+        </div>
+
+        <footer class="curso-footer">
+            <a href="{% url 'cursos:lista_cursos' %}" class="btn volver">← Volver a cursos</a>
+            <button class="btn inscribirse">📝 Inscribirse</button>
+            <button class="btn compartir">🔗 Compartir</button>
+            <button class="btn favoritos">❤️ Favoritos</button>
+        </footer>
+    </div>
+</section>
+{% endblock %}

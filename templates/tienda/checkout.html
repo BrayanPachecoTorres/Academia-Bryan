@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tienda_extras %}
+
+{% block title %}Finalizar Compra{% endblock %}
+
+{% block content %}
+<section class="checkout py-5">
+  <div class="container">
+    <h1 class="mb-4 text-center">Finalizar Compra</h1>
+    <p class="text-center mb-4">
+      ¿Ya eres cliente? <a href="{% url 'usuarios:login' %}" class="text-primary fw-bold">Haz clic aquí para acceder</a>
+    </p>
+    <div class="row">
+      
+      <!-- 🧾 Formulario de facturación -->
+      <div class="col-lg-7">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-primary text-white">
+            Datos de facturación
+          </div>
+          <div class="card-body">
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <!-- Renderizamos campo por campo para más control -->
+              <div class="mb-3">
+                <label for="id_nombre" class="form-label">Nombre *</label>
+                {{ form.nombre }}
+              </div>
+              <div class="mb-3">
+                <label for="id_apellidos" class="form-label">Apellidos *</label>
+                {{ form.apellidos }}
+              </div>
+              <div class="mb-3">
+                <label for="id_telefono" class="form-label">Teléfono *</label>
+                {{ form.telefono }}
+              </div>
+              <div class="mb-3">
+                <label for="id_email" class="form-label">Correo electrónico *</label>
+                {{ form.email }}
+              </div>
+              <div class="mb-3">
+                <label for="id_direccion" class="form-label">Dirección *</label>
+                {{ form.direccion }}
+              </div>
+
+              <!-- Opciones -->
+              <div class="form-check mb-2">
+                {{ form.suscripcion_boletin }}
+                <label class="form-check-label" for="id_suscripcion_boletin">
+                  Suscribirme al boletín para recibir información sobre cursos y ofertas
+                </label>
+              </div>
+              <div class="form-check mb-3">
+                {{ form.crear_cuenta }}
+                <label class="form-check-label" for="id_crear_cuenta">
+                  Crear una cuenta para futuras compras
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-success w-100">
+                REALIZAR EL PEDIDO
+              </button>
+
+              <!-- Aviso de privacidad -->
+              <p class="mt-3 text-muted small">
+                Tus datos personales se utilizarán para procesar tu pedido, mejorar tu experiencia en esta web y otros propósitos descritos en nuestra 
+                <a href="#" class="text-decoration-underline">política de privacidad</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 📦 Resumen del pedido -->
+      <div class="col-lg-5">
+        <div class="card shadow-sm mb-4">
+          <div class="card-header bg-secondary text-white">
+            Tu pedido
+          </div>
+          <div class="card-body">
+            {% if productos %}
+              <ul class="list-group list-group-flush mb-3">
+                {% for producto in productos %}
+                  {% with cantidad=carrito|get_item:producto.id %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                      <strong>{{ producto.nombre }}</strong><br>
+                      <small>Cantidad: {{ cantidad }}</small>
+                    </div>
+                    <span>${{ producto.precio|mul:cantidad }}</span>
+                  </li>
+                  {% endwith %}
+                {% endfor %}
+              </ul>
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Subtotal</span>
+                <span class="fw-bold">
+                  ${{ productos|calc_subtotal:carrito }}
+                </span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="fw-bold">Total</span>
+                <span class="fw-bold text-primary">
+                  ${{ productos|calc_subtotal:carrito }}
+                </span>
+              </div>
+            {% else %}
+              <p class="text-muted">Tu carrito está vacío.</p>
+              <a href="{% url 'tienda:listado' %}" class="btn btn-outline-primary">
+                Volver a la tienda
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
