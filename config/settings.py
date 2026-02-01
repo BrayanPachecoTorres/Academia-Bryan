@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # 📌 Rutas base
@@ -5,8 +6,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 🔑 Seguridad
 SECRET_KEY = 'pon-aqui-una-clave-secreta'
-DEBUG = True
-ALLOWED_HOSTS = []
+# Detectar entorno (development por defecto)
+ENVIRONMENT = os.getenv('DJANGO_ENV', 'development')
+
+if ENVIRONMENT == 'production':
+    DEBUG = False
+    ALLOWED_HOSTS = ['bryanpachecots.pythonanywhere.com']
+else:
+    DEBUG = True
+    ALLOWED_HOSTS = []
+
 
 # 📦 Aplicaciones instaladas
 INSTALLED_APPS = [
